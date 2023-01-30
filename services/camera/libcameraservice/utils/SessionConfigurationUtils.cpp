@@ -501,7 +501,9 @@ binder::Status createSurfaceFromGbp(
     uint64_t allowedFlags = GraphicBuffer::USAGE_SW_READ_MASK |
                            GraphicBuffer::USAGE_HW_TEXTURE |
                            GraphicBuffer::USAGE_HW_COMPOSER;
-    bool flexibleConsumer = (consumerUsage & disallowedFlags) == 0 &&
+// QTI_BEGIN: 2021-06-24: Camera: Master callback mode support for MCX raw
+    bool flexibleConsumer = !isPriviledgedClient && (consumerUsage & disallowedFlags) == 0 &&
+// QTI_END: 2021-06-24: Camera: Master callback mode support for MCX raw
             (consumerUsage & allowedFlags) != 0;
 
     surface = new Surface(gbp, useAsync);
